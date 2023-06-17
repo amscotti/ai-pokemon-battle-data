@@ -1,0 +1,32 @@
+{
+  "name": "ai-pokemon-battle-data",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "AI Pokemon Battle Data",
+  "main": "./bin/index.js",
+  "scripts": {
+    "start": "node ./bin/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "prepare": "husky install"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.0",
+    "inquirer": "^9.2.7",
+    "openai": "^3.3.0",
+    "ora": "^6.3.1"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "standard": "^17.1.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint:fix"
+    ]
+  }
+}

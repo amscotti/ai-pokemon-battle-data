@@ -1,0 +1,53 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Pokemon Battle Data",
+    "type": "object",
+    "definitions": {
+        "Pokemon": {
+            "type": "object",
+            "properties": {
+                "PokedexNumber": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": ["PokedexNumber", "Name", "Type"]
+        }
+    },
+    "properties": {
+        "TargetPokemon": {
+            "$ref": "#/definitions/Pokemon"
+        },
+        "SelectedPokemon": {
+            "type": "array",
+            "items": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/Pokemon"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "Description": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["Description"]
+                    }
+                ]
+            },
+            "maxItems": 3
+        }
+    },
+    "required": ["TargetPokemon", "SelectedPokemon"]
+}
