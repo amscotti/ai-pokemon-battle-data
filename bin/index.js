@@ -7,7 +7,9 @@ import 'dotenv/config'
 const schemaPath = './src/open-ai-response-schema.json'
 
 if (!process.env.OPENAI_API_KEY) {
-  console.error('OPENAI_API_KEY is not set. Please set the environment variable.')
+  console.error(
+    'OPENAI_API_KEY is not set. Please set the environment variable.'
+  )
   process.exit(1)
 }
 
@@ -18,16 +20,17 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration)
 const schema = JSON.parse(await readFile(schemaPath, 'utf8'))
 
-const fetchData = async pokemon => {
+const fetchData = async (pokemon) => {
   const spinner = ora('Consulting the Pokémon expert!').start()
 
   try {
     const chatCompletion = await openai.createChatCompletion({
-      model: 'gpt-4-0613',
+      model: 'gpt-4o',
       messages: [
         {
           role: 'system',
-          content: 'You are a helpful assistant with extensive knowledge of the original Pokémon games, and Generation I of Pokémon'
+          content:
+            'You are a helpful assistant with extensive knowledge of the original Pokémon games, and Generation I of Pokémon'
         },
         {
           role: 'user',
@@ -40,12 +43,18 @@ const fetchData = async pokemon => {
     })
 
     spinner.succeed('Data retrieved!')
-    const returnData = JSON.parse(chatCompletion.data.choices[0].message.function_call.arguments)
+    const returnData = JSON.parse(
+      chatCompletion.data.choices[0].message.function_call.arguments
+    )
 
-    console.log(`Our resident expert suggests using the following Pokémon against ${returnData.TargetPokemon.Name}:\n`)
+    console.log(
+      `Our resident expert suggests using the following Pokémon against ${returnData.TargetPokemon.Name}:\n`
+    )
 
-    returnData.SelectedPokemon.forEach(pokemon => {
-      console.log(`Name: ${pokemon.Name}, Pokedex Number: ${pokemon.PokedexNumber}, Type(s): ${pokemon.Type.join(', ')}`)
+    returnData.SelectedPokemon.forEach((pokemon) => {
+      console.log(
+        `Name: ${pokemon.Name}, Pokedex Number: ${pokemon.PokedexNumber}, Type(s): ${pokemon.Type.join(', ')}`
+      )
       console.log(`${pokemon.Description}\n`)
     })
   } catch (error) {
